@@ -3,7 +3,9 @@ package com.repositories.explorer.repositories.api;
 import com.repositories.explorer.shared.dao.IRepositoryDao;
 import com.repositories.explorer.shared.dao.RepositoryDaoFactory;
 import com.repositories.explorer.shared.domain.Repository;
+import com.repositories.explorer.shared.domain.RepositoryFetchException;
 import com.repositories.explorer.shared.domain.RepositoryHost;
+import com.repositories.explorer.shared.domain.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,8 @@ public class UserRepositoriesController {
     private RepositoryDaoFactory repositoryDaoFactory;
 
     @GetMapping("/{user}")
-    public ResponseEntity<List<RepositoryDto>> getUserRepositoryList(@PathVariable(required = true) String user) {
+    public ResponseEntity<List<RepositoryDto>> getUserRepositoryList(@PathVariable(required = true) String user) throws RepositoryFetchException, UserNotFoundException {
+        // easy to change host
         IRepositoryDao repositoryDao = repositoryDaoFactory.getRepositoryDao(RepositoryHost.Github);
         List<Repository> repositories = repositoryDao.getUserRepositories(user);
         List<RepositoryDto> dtos = repositories.stream().map(RepositoryDto::fromRepository).collect(Collectors.toList());
