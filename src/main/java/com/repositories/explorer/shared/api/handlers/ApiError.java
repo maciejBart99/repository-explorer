@@ -10,5 +10,4 @@ public class ApiError {
     public String getMessage() {
         return message;
     }
-
 }

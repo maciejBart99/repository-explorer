@@ -40,7 +40,8 @@ public class GithubRepositoryDao implements IRepositoryDao {
         return githubRepositoryDtos.stream().map(GithubRepositoryDto::toRepository).collect(Collectors.toList());
     }
 
-    private HttpResponse<byte[]> getUserRepositoriesHttp(String userName) throws RepositoryFetchException, UserNotFoundException {
+    private HttpResponse<byte[]> getUserRepositoriesHttp(String userName)
+            throws RepositoryFetchException, UserNotFoundException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder(
                 URI.create(MessageFormat.format(userRepositoriesUrl, userName)))
